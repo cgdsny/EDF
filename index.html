@@ -1,0 +1,44 @@
+<input type="text" id="studentNo" placeholder="enter your student ID / Öğrenci No giriniz"><br>
+<label>
+  <input type="checkbox" id="phoneRule">
+  I acknowledge that using a phone during the exam is prohibited. / Sınavda telefon kullanmanın yasak olduğunu onaylıyorum.
+</label><br>
+<button onclick="searchStudent()">Sorgula</button>
+
+<div id="result"></div>
+
+<script>
+  function searchStudent() {
+    const no = document.getElementById("studentNo").value.trim();
+    const agreed = document.getElementById("phoneRule").checked;
+    const resultDiv = document.getElementById("result");
+    resultDiv.innerHTML = "";
+
+    if (no === "") {
+      resultDiv.innerHTML = "<p class='notfound'>Please enter your student ID. / Lütfen öğrenci numaranızı girin.</p>";
+      return;
+    }
+
+    if (!agreed) {
+      resultDiv.innerHTML = "<p class='warning'>You must acknowledge the phone rule to proceed. / Devam etmek için telefon kuralını onaylamalısınız.</p>";
+      return;
+    }
+
+    fetch(`http://localhost:3000/api/student?no=${no}`)
+      .then(res => {
+        if (!res.ok) throw new Error("Student not found");
+        return res.json();
+      })
+      .then(student => {
+        resultDiv.innerHTML = `
+          <div class="found">
+            <p>Name Surname / Adı Soyadı:</p><q><strong>${student.name}</q></strong>
+            <p>Classroom / Derslik:</p><q><strong>${student.room}</q></strong>
+          </div>
+        `;
+      })
+      .catch(() => {
+        resultDiv.innerHTML = "<p class='notfound'>No records were found matching this ID. / Bu numara ile eşleşen kayıt bulunamadı.</p>";
+      });
+  }
+</script>
