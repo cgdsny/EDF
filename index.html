@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exam Location Inquiry / Sınav Yeri Sorgulama</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f7fa;
+      text-align: center;
+      margin: 0;
+      padding: 40px;
+    }
+    h1 {
+      color: #003366;
+      margin-bottom: 30px;
+    }
+    input, label {
+      padding: 10px 200px;
+      font-size: 16px;
+      text-align: center;
+      width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      background-color: #0066cc;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-left: 0px;
+    }
+    button:hover {
+      background-color: #004c99;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #222;
+    }
+    .found {
+      background-color: #e6ffe6;
+      border: 1px solid #33aa33;
+      display: inline-block;
+      padding: 20px 100px;
+      border-radius: 10px;
+    }
+    .notfound {
+      color: #cc0000;
+      margin-top: 20px;
+    }
+    q {
+      font-size: 40px;
+    }
+    .checkbox-container {
+      margin-top: 20px;
+      background-color: #db5846;
+      border: 1px solid #33aa33;
+      display: inline-block;
+      padding: 5px 100px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Exam Location Inquiry / Sınav Yeri Sorgulama</h1>
+
+  <input type="text" id="studentNo" placeholder="enter your student ID / Öğrenci No giriniz"><br></p>
+  
+  <button onclick="searchStudent()">Sorgula</button></p>
+
+  <div class="checkbox-container">
+    <input type="checkbox" id="phoneRule"></p>
+
+    </p="phoneRule">Do not bring smartphone, smartwatch, earphone, smartglasses.</label></p>
+    </p="phoneRule">None will be allowed.</label></p>
+    </p="phoneRule">Akıllı telefon, akıllı saat, kulaklık, akıllı gözlük getirmeyiniz! Hiçbirine izin verilmeyecektir.</label></p>
+    </p="phoneRule">Hiçbirine izin verilmeyecektir.</label></p>
+
+  </div>
+
+  <div id="result"></div>
+
+  <!-- Veri dosyası -->
+  <script src="veri.js"></script>
+
+  <script>
+    function searchStudent() {
+      const no = document.getElementById("studentNo").value.trim();
+      const agreed = document.getElementById("phoneRule").checked;
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerHTML = "";
+
+      if (no === "") {
+        resultDiv.innerHTML = "<p class='notfound'>Please enter your student ID. / Lütfen öğrenci numaranızı girin.</p>";
+        return;
+      }
+
+      if (!agreed) {
+        resultDiv.innerHTML = "<p class='notfound'>You must confirm the rule to proceed. / Devam etmek için kuralı onaylamalısınız.</p>";
+        return;
+      }
+
+      const student = students.find(s => s.no === no);
+
+      if (student) {
+        resultDiv.innerHTML = `
+          <div class="found">
+            <p>Name Surname / Adı Soyadı:</p><q><strong>${student.name}</q></strong>
+            <p>Classroom / Derslik:</p><q><strong>${student.room}</q></strong>
+          </div>
+        `;
+      } else {
+        resultDiv.innerHTML = "<p class='notfound'>No records were found matching this ID. / Bu numara ile eşleşen kayıt bulunamadı.</p>";
+      }
+    }
+  </script>
+
+</body>
+</html>
