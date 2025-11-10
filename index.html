@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exam Location Inquiry / Sınav Yeri Sorgulama</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f7fa;
+      text-align: center;
+      margin: 0;
+      padding: 40px;
+    }
+    h1 {
+      color: #003366;
+      margin-bottom: 30px;
+    }
+    input {
+      padding: 10px;
+      font-size: 16px;
+      width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      background-color: #0066cc;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-left: 8px;
+    }
+    button:hover {
+      background-color: #004c99;
+    }
+    #result {
+      margin-top: 40px;
+      font-size: 18px;
+      color: #222;
+    }
+    .found {
+      background-color: #e6ffe6;
+      border: 1px solid #33aa33;
+      display: inline-block;
+      padding: 20px 100px;
+      border-radius: 10px;
+    }
+    .notfound {
+      color: #cc0000;
+      margin-top: 20px;
+    }
+    q {
+    font-size: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Exam Location Inquiry / Sınav Yeri Sorgulama</h1>
+
+  <input type="text" id="studentNo" placeholder="enter your student ID / Öğrenci No giriniz">
+  <button onclick="searchStudent()">Sorgula</button>
+
+  <div id="result"></div>
+
+  <!-- Veri dosyası -->
+  <script src="veri.js"></script>
+
+  <script>
+    function searchStudent() {
+      const no = document.getElementById("studentNo").value.trim();
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerHTML = "";
+
+      if (no === "") {
+        resultDiv.innerHTML = "<p class='notfound'>Please enter your student ID. / Lütfen öğrenci numaranızı girin.</p>";
+        return;
+      }
+
+      const student = students.find(s => s.no === no);
+
+      if (student) {
+        resultDiv.innerHTML = `
+          <div class="found">
+            <p>Name Surname / Adı Soyadı:</p><q><strong>${student.name}</q></strong>
+            <p>Classroom / Derslik:</p><q><strong>${student.room}</q></strong>
+          </div>
+        `;
+      } else {
+        resultDiv.innerHTML = "<p class='notfound'>No records were found matching this ID. / Bu numara ile eşleşen kayıt bulunamadı.</p>";
+      }
+    }
+  </script>
+
+</body>
+</html>
